@@ -1,0 +1,217 @@
+% =================================================================================
+% omni 2018
+% =================================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{litbib}
+
+% ================================================================================= PACKAGES
+% Require as not to load multiple times
+\RequirePackage{ifthen}						% needed for \ifthenelse in \lit
+\RequirePackage{xkeyval}					% define commands with keys (arg1=val1)
+\RequirePackage{environ}                    % define custom environments with \BODY
+
+% ================================================================================= CONFIG
+
+\ProcessOptions\relax
+
+% Formated Bibliography
+\NewEnviron{abib}{
+	\begingroup
+		\section{Bibliography}
+		%\renewcommand{\chapter}[2]{}    % HIDE <<Literatur>> Heading
+		\renewcommand{\section}[2]{}    % HIDE <<Literatur>> Heading
+		% thebibliography <
+			\BODY
+		% thebibliography >
+	\endgroup
+}
+
+\makeatletter
+% ========= KEY DEFINITIONS =========
+	\define@cmdkey{LIT}[LIT@]{authors}{}%
+	\define@cmdkey{LIT}[LIT@]{year}{}%
+	\define@cmdkey{LIT}[LIT@]{title}{}%
+	\define@cmdkey{LIT}[LIT@]{volume}{}%
+	\define@cmdkey{LIT}[LIT@]{issue}{}%
+	\define@cmdkey{LIT}[LIT@]{isbn}{}%
+	\define@cmdkey{LIT}[LIT@]{doi}{}%
+	%[<IN>.]
+	\define@cmdkey{LIT}[LIT@]{inEditors}{}%
+	\define@cmdkey{LIT}[LIT@]{inYear}{}%
+	\define@cmdkey{LIT}[LIT@]{inTitle}{}%
+	\define@cmdkey{LIT}[LIT@]{inPages}{}%
+	\define@cmdkey{LIT}[LIT@]{inVolume}{}%
+	\define@cmdkey{LIT}[LIT@]{inIssue}{}%
+	\define@cmdkey{LIT}[LIT@]{inIsbn}{}%
+	\define@cmdkey{LIT}[LIT@]{inDoi}{}%
+	%<PUBLISHER>
+	\define@cmdkey{LIT}[LIT@]{pubLocation}{}%
+	\define@cmdkey{LIT}[LIT@]{pubPublisher}{}%
+	%[<ADDITIONS>.]
+	%\define@cmdkey{LIT}[LIT@]{addInetSrc}{}%
+	\define@cmdkey{LIT}[LIT@]{addInetSrc}{}%
+	\define@cmdkey{LIT}[LIT@]{addInetDate}{}%
+	\define@cmdkey{LIT}[LIT@]{addNote}{}%
+% ========= KEY DEFAULTS =========
+\setkeys{LIT}{
+	authors = n.a.,
+	year = n.d.,
+	title = n.t.,
+	volume =,
+	issue =,
+	isbn =,
+	doi =,
+	%[<IN>.]
+	inEditors =,
+	inTitle =,
+	inYear =,
+	inPages =,
+	inVolume =,
+	inIssue =,
+	inIsbn =,
+	inDoi =,
+	%<PUBLISHER>
+	pubLocation =,
+	pubPublisher =,
+	%[<ADDITIONS>.]
+	addInetSrc =,
+	addInetDate =,
+	addNote =
+}
+\newcommand{\lit}[2]{%
+	\begingroup%
+	\setkeys{LIT}{#1}% Set new keys
+	\bibitem{#2}{
+		% <AUTHORS>
+		\LIT@authors%
+		% <year>
+		~(\LIT@year).%
+		% <TITLE>
+			% <title>
+			~\textit{\LIT@title}%
+			% [,<NUMBER>].
+			\ifthenelse{\equal{\LIT@volume}{}}%
+				% if volume is not set
+				{%
+					\ifthenelse{\equal{\LIT@issue}{}}%
+						% and issue is not set
+						{.}%
+						% and issue is set
+						{,~(\LIT@issue).}%
+				}%
+				% if volume is set
+				{%
+					\ifthenelse{\equal{\LIT@issue}{}}%
+						% and issue is not set
+						{,~Vol.\LIT@volume.}%
+						% and issue is set
+						{,~Vol.\LIT@volume(\LIT@issue).}%
+				}%
+			% [ {(ISBN: <isbn>)|(DOI: <doi>)}]
+			\ifthenelse{\equal{\LIT@isbn}{}}%
+				% if isbn is not set
+				{%
+					\ifthenelse{\equal{\LIT@doi}{}}%
+						% and doi is not set
+						{}%
+						% but doi is set
+						{~DOI:~\LIT@doi.}%
+				}%
+				% if isbn is set
+				{~ISBN:~\LIT@isbn.}%
+		% <IN> // Only if title set
+		\ifthenelse{\equal{\LIT@inTitle}{}}%
+			% if in title is not set
+			{}%
+			% if in title is set
+			% [<AUTHORS>. ]
+			{~In:%
+				\ifthenelse{\equal{\LIT@inEditors}{}}%
+					% if editor is not set
+					{}%
+					% if editor is set
+					{~\LIT@inEditors~(Ed.),}%
+			% <TITLE>
+				% <title>
+				~\textit{\LIT@inTitle}%
+				% [, (published <year>)]
+				\ifthenelse{\equal{\LIT@inYear}{}}%
+					% if year not set
+					{}%
+					% if year set
+					{,~(published \LIT@inYear)}%
+				% [,<NUMBER>]
+				\ifthenelse{\equal{\LIT@inVolume}{}}%
+					% if volume is not set
+					{%
+						\ifthenelse{\equal{\LIT@inIssue}{}}%
+							% and issue is not set
+							{}%
+							% and issue is set
+							{,~(\LIT@inIssue)}%
+					}%
+					% if volume is set
+					{%
+						\ifthenelse{\equal{\LIT@inIssue}{}}%
+							% and issue is not set
+							{,~Vol.\LIT@inVolume}%
+							% and issue is set
+							{,~Vol.\LIT@inVolume(\LIT@inIssue)}%
+					}%
+					% [, p.<first_page>-<last_page>]
+					\ifthenelse{\equal{\LIT@inPages}{}}%
+						% if pages is not set
+						{.}%
+						% if pages is set
+						{,~p.\LIT@inPages.}%
+					% [ {(ISBN: <isbn>)|(DOI: <doi>)}]
+					\ifthenelse{\equal{\LIT@inIsbn}{}}%
+						% if isbn is not set
+						{%
+							\ifthenelse{\equal{\LIT@inDoi}{}}%
+							% if doi is not set
+							{}%
+							% if doi is set
+							{~DOI:~\LIT@inDoi.}%
+						}%
+						% if isbn is set
+						{~ISBN:~\LIT@inIsbn.}%
+				}% </IN>
+			% <PUBLISHER>.
+			\ifthenelse{\equal{\LIT@pubLocation}{}}%
+				% if location is not set
+				{}%
+				% if location is set
+				{~\LIT@pubLocation,}%
+			\ifthenelse{\equal{\LIT@pubPublisher}{}}%
+				% if publisher is not set
+				{}%
+				% if publisher is set
+				{~\LIT@pubPublisher.}%
+			% [<ADDITIONS>.]
+			\ifthenelse{\equal{\LIT@addInetSrc}{}}%
+				% if source is not set
+				{}%
+				% if source is set
+				{~Retreived~from:~\LIT@addInetSrc~[\LIT@addInetDate].}%
+	}%
+	\endgroup%
+}
+\makeatother
+% <AUTHORS> (<year>). <TITLE>.[ <IN>.][ <PUBLISHER>.][ <ADDITIONS>.]
+%
+% <AUTHORS>   := <AUTHOR>[, <AUTHORS>]
+% <AUTHOR>    := <Last Name>, <First Name Initial>.
+%
+% <TITLE>     := <title>[, (published <year>)][, <NUMBER>][ {(ISBN: <isbn>)|(DOI: <doi>)}]
+%
+% <IN>        := In: [<AUTHORS>. ]<TITLE>
+% <NUMBER>    := [Vol. <volume_number>] [(<issue_number>)][, p.<first_page>-<last_page>]
+%
+% <PUBLISHER> := [<city>, [<state>,] <country>. ]<publisher>
+%
+% <ADDITIONS> := {<INTERNET>|<NOTE>}[, <ADDITIONS>]
+% <INTERNET>  := Retreived from: <url> "["<YYYY-MM-DD>"]"
+% <NOTE>      := Note: <remark>
+
+\endinput
