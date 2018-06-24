@@ -9,14 +9,10 @@
 \RequirePackage{ifthen}						% needed for \ifthenelse in \lit
 \RequirePackage{xkeyval}					% define commands with keys (arg1=val1)
 \RequirePackage{environ}                    % define custom environments with \BODY
+\RequirePackage{etoolbox}                    % because why not
 
 % ================================================================================= CONFIG
 
-\makeatletter%
-	\@ifclassloaded{book}%
-		{\newcommand{\doctype}{book}}%true
-		{\newcommand{\doctype}{}}%false
-\makeatother%
 
 % enable continuous numbering on seperate bibliographies
 \newif\ifcc
@@ -34,31 +30,30 @@
 
 % Formated Bibliography
 \NewEnviron{litbib}[1][Bibliography]{
-	\begingroup
-		\ifthenelse{\equal{\doctype}{}}
-		{% other
-			\renewcommand{\section}[2]{}% HIDE <<Literatur>> Heading
-		}%
-		{% book
-			\renewcommand{\chapter}[2]{}% HIDE <<Literatur>> Heading
-		}%
+	\begingroup%
+		\section{#1}%
 
-		%\ifthenelse{\equal{#1}{}}
-		\section{#1}
+		% HIDE <<Literatur>> Heading
+			% article
+			\renewcommand{\section}[2]{}%
+			% other types
+			\ifcsdef{chapter}%
+				{%
+				\renewcommand{\chapter}[2]{}% HIDE <<Literatur>> Heading
+				}{}
+
 		% thebibliography <
-			\begin{thebibliography}{99}
-			\ifcc
-				\setcounter{enumiv}{\value{contbib}}
-			\fi
-
+			\begin{thebibliography}{99}%
+			\ifcc%
+				\setcounter{enumiv}{\value{contbib}}%
+			\fi%
 			\BODY
-
-			\ifcc
-				\setcounter{contbib}{\value{enumiv}}
-			\fi
-			\end{thebibliography}
+			\ifcc%
+				\setcounter{contbib}{\value{enumiv}}%
+			\fi%
+			\end{thebibliography}%
 		% thebibliography >
-	\endgroup
+	\endgroup%
 }
 
 \makeatletter
