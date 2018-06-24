@@ -12,16 +12,51 @@
 
 % ================================================================================= CONFIG
 
+\makeatletter%
+	\@ifclassloaded{book}%
+		{\newcommand{\doctype}{book}}%true
+		{\newcommand{\doctype}{}}%false
+\makeatother%
+
+% enable continuous numbering on seperate bibliographies
+\newif\ifcc
+\DeclareOption{crosscite}{
+	\cctrue
+}
+
 \ProcessOptions\relax
 
+% if crosscite is enabled
+\ifcc
+	\newcounter{contbib}
+\fi
+
+
 % Formated Bibliography
-\NewEnviron{abib}{
+\NewEnviron{litbib}[1][Bibliography]{
 	\begingroup
-		\section{Bibliography}
-		%\renewcommand{\chapter}[2]{}    % HIDE <<Literatur>> Heading
-		\renewcommand{\section}[2]{}    % HIDE <<Literatur>> Heading
+		\ifthenelse{\equal{\doctype}{}}
+		{% other
+			\renewcommand{\section}[2]{}% HIDE <<Literatur>> Heading
+		}%
+		{% book
+			\renewcommand{\chapter}[2]{}% HIDE <<Literatur>> Heading
+		}%
+
+		%\ifthenelse{\equal{#1}{}}
+		\section{#1}
 		% thebibliography <
+			\begin{thebibliography}{99}
+			\ifcc
+				\setcounter{enumiv}{\value{contbib}}
+			\fi
+
 			\BODY
+
+			\ifcc
+				\setcounter{contbib}{\value{enumiv}}
+			\fi
+			\end{thebibliography}
 		% thebibliography >
 	\endgroup
 }
