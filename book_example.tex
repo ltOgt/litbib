@@ -1,7 +1,7 @@
 \documentclass[oneside]{book}
 
 %Packages =============================
-\usepackage[crosscite]{litbib}
+\usepackage[crosscite,customlabel]{litbib}
 
 %Document =============================
 \begin{document}
@@ -9,7 +9,8 @@
 \chapter{}
 	The bibliography of this chapter only includes \cite{turing1936}.\\
 	But you can also cite \cite{shannon1984}.\\
-	To enable continuous numbering use the package option ``crosscite''.
+	To enable continuous numbering use the package option ``crosscite''.\\
+	To use custom labels use the package option ``cutomlabel''.
 	\begin{litbib}[Bibliography of Chapter 1]
 			\lit{
 				authors = {Turing, A.M.},
@@ -21,6 +22,7 @@
 				inYear = 1937,
 				inPages = 230-265,
 				inDoi = 10.1112/plms/s2-42.1.230,
+				label = {Turing, 1936}
 			}{turing1936}
 	\end{litbib}
 
@@ -38,7 +40,8 @@
 				inIssue = 4,
 				inPages = 623-666,
 				inDoi = 10.1002/j.1538-7305.1948.tb00917.x,
-				pubPublisher = Nokia Bell Labs
+				pubPublisher = Nokia Bell Labs,
+				label = {Shannon, 1984}
 			}{shannon1984}
 	\end{litbib}
 

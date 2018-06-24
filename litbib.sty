@@ -20,6 +20,11 @@
 	\cctrue
 }
 
+\newif\ifcl
+\DeclareOption{customlabel}{
+	\cltrue
+}
+
 \ProcessOptions\relax
 
 % if crosscite is enabled
@@ -82,6 +87,8 @@
 	\define@cmdkey{LIT}[LIT@]{addInetSrc}{}%
 	\define@cmdkey{LIT}[LIT@]{addInetDate}{}%
 	\define@cmdkey{LIT}[LIT@]{addNote}{}%
+	% custom marking to be used when package option "customlabel" is set
+	\define@cmdkey{LIT}[LIT@]{label}{}%
 % ========= KEY DEFAULTS =========
 \setkeys{LIT}{
 	authors = n.a.,
@@ -106,12 +113,13 @@
 	%[<ADDITIONS>.]
 	addInetSrc =,
 	addInetDate =,
-	addNote =
+	addNote =,
+	label = ERR-NO-LABEL-SET
 }
 \newcommand{\lit}[2]{%
 	\begingroup%
 	\setkeys{LIT}{#1}% Set new keys
-	\bibitem{#2}{
+	\newcommand{\content}{
 		% <AUTHORS>
 		\LIT@authors%
 		% <year>
@@ -225,6 +233,11 @@
 				% if source is set
 				{~Retreived~from:~\LIT@addInetSrc~[\LIT@addInetDate].}%
 	}%
+	\ifcl%
+		\bibitem[\LIT@label]{#2}{\content}%
+	\else%
+		\bibitem{#2}{\content}%
+	\fi%
 	\endgroup%
 }
 \makeatother

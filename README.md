@@ -34,5 +34,10 @@ The integration of mutliple bibliographies is as easy as using the `\begin{litbi
 If you want continuous numbering just import the package with the option `crosscite`.
 
 # TODO
-The plan is to develop a little script to generate `\lit` items from existing `*.bib` files,
-as well as the provision of more bibliography styles.
+[-] Develop a little script to generate `\lit` items from existing `*.bib` files.
+
+[-] Provide nultiple bibliography styles.
+
+[X] Enable custom labels.
+
+[-] Generate custom labels based on style (e.g. APA from author and year)
