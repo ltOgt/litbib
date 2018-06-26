@@ -78,6 +78,14 @@ addInetDate =,
 addNote =,
 ```
 
+The only values that will always be used are `authors`,`date`,`title` (If not set: `n.a`,`n.d`,`n.t`).
+
+For the book / journal / ... at least the title has to be set for any of its values to be included.
+
+If ISBN is set, doi is ignored.
+
+Titles are italic.
+
 ### example
 ```
 \usepackage{litbib}
@@ -128,14 +136,6 @@ Not everything is enforced and there might be some differences to the actual imp
 ## what the package does
 The package reads the provided values (via `xkeyval`) and generates a `\bibitem` with the values arranged and formated according to the style (using `ifthen`).
 
-The only values that will always be used are `authors`,`date`,`title` (If not set: `n.a`,`n.d`,`n.t`).
-
-For the book / journal / ... at least the title has to be set for any of its values to be included.
-
-If ISBN is set, doi is ignored.
-
-Titles are italic.
-
 If all values are set the style generates:
 
 `[LABEL] AUTHORS (YEAR). TITLE, Vol.VOLUME(ISSUE). ISBN: ISBN. In: INEDITORS
@@ -146,6 +146,8 @@ Retreived from: INETSRC [INETDATE]`
 (See `full_example`)
 
 The package also provides a slightly adjusted environment (`\litbib` instead of `\thebibliography`) to change the title of the bibliography and handle continuous numbering (`crosscite` option).
+
+You can also just use the `\lit` items in a regular `\thebibliography` environment, as normal `\bibitem`s are generated.
 
 # TODO
 `[ ]` Develop a little script to generate `\lit` items from existing `*.bib` files.
