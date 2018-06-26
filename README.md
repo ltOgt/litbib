@@ -36,7 +36,7 @@ If you want continuous numbering just import the package with the option `crossc
 
 If you want to label the references yourself import the package with the `customlabel` option. Note that you will then need to define a label for each entry however. Automatic label creation is planned.
 
-## how to use
+## how to use the package
 Simply move the `litbib.sty` file in to the directory of your main latex file, or add it to your tex home directory (e.g. `~/texmf` on unix; run texhash to update the database).
 You can then use it as any other package with `\usepackage` or `\RequirePackage`.
 
@@ -77,25 +77,8 @@ addInetSrc =,		% use with \protect\url{}
 addInetDate =,
 addNote =,
 ```
-### what the package does
-The package reads the provided values and generates a `\bibitem` with the values arranged and formated according to the style.
 
-The only values that will always be used are `authors`,`date`,`title` (If not set: `n.a`,`n.d`,`n.t`).
-For the book / journal / ... at least the title has to be set for any of its values to be included.
-If ISBN is set, doi is ignored.
-Titles are italic.
-
-If all values are set the style generates:
-
-`[LABEL] AUTHORS (YEAR). TITLE, Vol.VOLUME(ISSUE). ISBN: ISBN. In: INEDITORS
-(Ed.), INTITLE, (published INYEAR), Vol.INVOLUME(INISSUE),
-p.INPAGES. ISBN: INISBN. PUBLOCATION, PUBPUBLISHER.
-Retreived from: INETSRC [INETDATE]`
-
-(See `full_example`)
-
-
-## example
+### example
 ```
 \usepackage{litbib}
 %\usepackage[crosscite]{litbib}
@@ -116,7 +99,7 @@ Retreived from: INETSRC [INETDATE]`
 			}{turing1936}
 \end{litbib}
 ```
-For the effects see the provided `book_example` and `article_example`.
+For the effects see the provided example files.
 
 ## style
 As of now only one fixed style is provided, it is planned to provide more styles based on commonly used ones.
@@ -141,6 +124,28 @@ The APA based style can roughly be discribed the following way:
 <NOTE>      := Note: <remark>
 ```
 Not everything is enforced and there might be some differences to the actual implementation (I will have to check again).
+
+## what the package does
+The package reads the provided values (via `xkeyval`) and generates a `\bibitem` with the values arranged and formated according to the style (using `ifthen`).
+
+The only values that will always be used are `authors`,`date`,`title` (If not set: `n.a`,`n.d`,`n.t`).
+
+For the book / journal / ... at least the title has to be set for any of its values to be included.
+
+If ISBN is set, doi is ignored.
+
+Titles are italic.
+
+If all values are set the style generates:
+
+`[LABEL] AUTHORS (YEAR). TITLE, Vol.VOLUME(ISSUE). ISBN: ISBN. In: INEDITORS
+(Ed.), INTITLE, (published INYEAR), Vol.INVOLUME(INISSUE),
+p.INPAGES. ISBN: INISBN. PUBLOCATION, PUBPUBLISHER.
+Retreived from: INETSRC [INETDATE]`
+
+(See `full_example`)
+
+The package also provides a slightly adjusted environment (`\litbib` instead of `\thebibliography`) to change the title of the bibliography and handle continuous numbering (`crosscite` option).
 
 # TODO
 `[ ]` Develop a little script to generate `\lit` items from existing `*.bib` files.
