@@ -36,8 +36,71 @@ If you want continuous numbering just import the package with the option `crossc
 
 If you want to label the references yourself import the package with the `customlabel` option. Note that you will then need to define a label for each entry however. Automatic label creation is planned.
 
+## how to use
+Simply move the `litbib.sty` file in to the directory of your main latex file, or add it to your tex home directory (e.g. `~/texmf` on unix; run texhash to update the database).
+You can then use it as any other package with `\usepackage` or `\RequirePackage`.
+
+Instead of using `\thebibliography`, you use `\litib`.
+
+Instead of using `\bibitem` , you use `\lit`, which takes a list of parameters and the reference label as arguments.
+
+### Values
+To specify the main text you cited use the following:
+```
+authors = n.a.,		% Authors
+year = n.d.,		% Year published
+title = n.t.,		% Title
+volume =,		% Volume
+issue =,		% Issue
+isbn =,			% Isbn
+doi =,			% doi
+```
+To specify the book / journal / ... the text is included in use: 
+```
+inEditors =,		% Editors of the larger work
+inTitle =,		% Title of the book / journal / collection / ...
+inYear =,		% Year of publication
+inPages =,		% Pages on which the cited text can be found
+inVolume =,		% Volume of the larger work
+inIssue =,		% Issue
+inIsbn =,		% Isbn
+inDoi =,		% doi
+```
+To specify the publisher use:
+```
+pubLocation =,		% City / Country / ...
+pubPublisher =,		% Company / Institution / ...
+```
+To specify e.g. an internet source use:
+```
+addInetSrc =,		% use with \protect\url{}
+addInetDate =,
+addNote =,
+```
+### what the package does
+The package reads the provided values and generates a `\bibitem` with the values arranged and formated according to the style.
+
+The only values that will always be used are `authors`,`date`,`title` (If not set: `n.a`,`n.d`,`n.t`).
+For the book / journal / ... at least the title has to be set for any of its values to be included.
+If ISBN is set, doi is ignored.
+Titles are italic.
+
+If all values are set the style generates:
+
+`[LABEL] AUTHORS (YEAR). TITLE, Vol.VOLUME(ISSUE). ISBN: ISBN. In: INEDITORS
+(Ed.), INTITLE, (published INYEAR), Vol.INVOLUME(INISSUE),
+p.INPAGES. ISBN: INISBN. PUBLOCATION, PUBPUBLISHER.
+Retreived from: INETSRC [INETDATE]`
+
+(See `full_example`)
+
+
 ## example
 ```
+\usepackage{litbib}
+%\usepackage[crosscite]{litbib}
+%\usepackage[customlabel]{litbib}
+
 \begin{litbib}[Bibliography of Chapter 1]
 			\lit{
 				authors = {Turing, A.M.}, % If a value contains a comma, it needs to be surrounded with braces. 
@@ -53,9 +116,12 @@ If you want to label the references yourself import the package with the `custom
 			}{turing1936}
 \end{litbib}
 ```
-For the effects see the provided `book_example` and `article_example`, as well as `litbib.sty` for a complete list of available fields.
+For the effects see the provided `book_example` and `article_example`.
 
 ## style
+As of now only one fixed style is provided, it is planned to provide more styles based on commonly used ones.
+You can obviously also redefine the default one in the `litbib.sty`.
+
 The APA based style can roughly be discribed the following way:
 ```
 <AUTHORS> (<year>). <TITLE>.[ <IN>.][ <PUBLISHER>.][ <ADDITIONS>.]
@@ -79,11 +145,15 @@ Not everything is enforced and there might be some differences to the actual imp
 # TODO
 `[ ]` Develop a little script to generate `\lit` items from existing `*.bib` files.
 
-`[ ]` Provide nultiple bibliography styles.
+`[ ]` Provide multiple bibliography styles.
 
 `[X]` Enable custom labels.
 
 `[ ]` Generate custom labels based on style (e.g. APA from author and year)
 
+`[ ]` Add note.
+
 # Note
 I don't really know what I am doing. Any feedback on how to do things better is greatly appreciated.
+
+Also note that -- as I don't know what I am doing -- this package might not be usefull to you. The existing solutions offer a great amount of customizability and are -- with the `.bib` file -- the de facto standard. This solution was just something that fit my needs and I thought I might as well share it.
