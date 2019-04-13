@@ -36,7 +36,7 @@
 % Formated Bibliography
 \NewEnviron{litbib}[1][Bibliography]{
 	\begingroup%
-		\section{#1}%
+		\chapter{#1}% TODO switch between chapter and section; either automatically or by an option
 
 		% HIDE <<Literatur>> Heading
 			% article
@@ -66,6 +66,7 @@
 	\define@cmdkey{LIT}[LIT@]{authors}{}%
 	\define@cmdkey{LIT}[LIT@]{year}{}%
 	\define@cmdkey{LIT}[LIT@]{title}{}%
+	\define@cmdkey{LIT}[LIT@]{edition}{}%
 	\define@cmdkey{LIT}[LIT@]{volume}{}%
 	\define@cmdkey{LIT}[LIT@]{issue}{}%
 	\define@cmdkey{LIT}[LIT@]{isbn}{}%
@@ -74,6 +75,7 @@
 	\define@cmdkey{LIT}[LIT@]{inEditors}{}%
 	\define@cmdkey{LIT}[LIT@]{inYear}{}%
 	\define@cmdkey{LIT}[LIT@]{inTitle}{}%
+	\define@cmdkey{LIT}[LIT@]{inEdition}{}%
 	\define@cmdkey{LIT}[LIT@]{inPages}{}%
 	\define@cmdkey{LIT}[LIT@]{inVolume}{}%
 	\define@cmdkey{LIT}[LIT@]{inIssue}{}%
@@ -94,14 +96,16 @@
 	authors = n.a.,
 	year = n.d.,
 	title = n.t.,
+	edition =,
 	volume =,
 	issue =,
 	isbn =,
 	doi =,
 	%[<IN>.]
 	inEditors =,
-	inTitle =,
 	inYear =,
+	inTitle =,
+	inEdition =,
 	inPages =,
 	inVolume =,
 	inIssue =,
@@ -128,6 +132,12 @@
 			% <title>
 			~\textit{\LIT@title}%
 			% [,<NUMBER>].
+			\ifthenelse{\equal{\LIT@edition}{}}%
+			% [ (edition)]
+				% if edition not set
+				{}%
+				% if edition set
+				{~(Ed.~{\LIT@edition})}%
 			\ifthenelse{\equal{\LIT@volume}{}}%
 				% if volume is not set
 				{%
@@ -172,7 +182,12 @@
 			% <TITLE>
 				% <title>
 				~\textit{\LIT@inTitle}%
-				% [, (published <year>)]
+				\ifthenelse{\equal{\LIT@inEdition}{}}%
+				% [ (inEdition)]
+					% if inEdition not set
+					{}%
+					% if inEdition set
+					{~(Ed.~{\LIT@inEdition})}%
 				\ifthenelse{\equal{\LIT@inYear}{}}%
 					% if year not set
 					{}%
@@ -241,12 +256,12 @@
 	\endgroup%
 }
 \makeatother
-% <AUTHORS> (<year>). <TITLE>.[ <IN>.][ <PUBLISHER>.][ <ADDITIONS>.]
+% <AUTHORS> (<year>). <TITLE> [(edition)].[ <IN>.][ <PUBLISHER>.][ <ADDITIONS>.]
 %
 % <AUTHORS>   := <AUTHOR>[, <AUTHORS>]
 % <AUTHOR>    := <Last Name>, <First Name Initial>.
 %
-% <TITLE>     := <title>[, (published <year>)][, <NUMBER>][ {(ISBN: <isbn>)|(DOI: <doi>)}]
+% <TITLE>     := <title>[ (inEdition)][, (published <year>)][, <NUMBER>][ {(ISBN: <isbn>)|(DOI: <doi>)}]
 %
 % <IN>        := In: [<AUTHORS>. ]<TITLE>
 % <NUMBER>    := [Vol. <volume_number>] [(<issue_number>)][, p.<first_page>-<last_page>]
