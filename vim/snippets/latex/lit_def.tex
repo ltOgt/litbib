@@ -1,0 +1,47 @@
+ % <AUTHORS> (<year>). <TITLE> [(edition)].[ <IN>.][ <PUBLISHER>.][ <ADDITIONS>.]
+%
+% <AUTHORS>   := <AUTHOR>[, <AUTHORS>]
+% <AUTHOR>    := <Last Name>, <First Name Initial>.
+%
+% <TITLE>     := <title>[ (inEdition)][, (published <year>)][, <NUMBER>][ {(ISBN: <isbn>)|(DOI: <doi>)}]
+%
+% <IN>        := In: [<AUTHORS>. ]<TITLE>
+% <NUMBER>    := [Vol. <volume_number>] [(<issue_number>)][, p.<first_page>-<last_page>]
+%
+% <PUBLISHER> := [<city>, [<state>,] <country>. ]<publisher>
+%
+% <ADDITIONS> := {<INTERNET>|<NOTE>}[, <ADDITIONS>]
+% <INTERNET>  := Retreived from: <url> "["<YYYY-MM-DD>"]"
+% <NOTE>      := Note: <remark>
+\begin{litbib}
+%--------------------------------------------------------------------------------------------------------------------------------------
+	\lit{
+		authors = {},
+		year =,
+		title = {},
+		edition =,
+		volume =,
+		issue =,
+		isbn =,
+		doi =,
+		%[<IN>.]
+		inEditors =,
+		inYear =,
+		inTitle =,
+		inEdition =,
+		inPages =,
+		inVolume =,
+		inIssue =,
+		inIsbn =,
+		inDoi =,
+		%<PUBLISHER>
+		pubLocation =,
+		pubPublisher =,
+		%[<ADDITIONS>.]
+		addInetSrc ={\protect\url{}},
+		addInetDate =,
+		addNote =,
+		label = ERR-NO-LABEL-SET,
+	}%
+%--------------------------------------------------------------------------------------------------------------------------------------
+\end{litbib}
