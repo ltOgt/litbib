@@ -115,21 +115,21 @@ You can obviously also redefine the default one in the `litbib.sty`.
 
 The APA based style can roughly be discribed the following way:
 ```
-<AUTHORS> (<year>). <TITLE>.[ <IN>.][ <PUBLISHER>.][ <ADDITIONS>.]
-
-<AUTHORS>   := <AUTHOR>[, <AUTHORS>]
-<AUTHOR>    := <Last Name>, <First Name Initial>.
-
-<TITLE>     := <title>[, (published <year>)][, <NUMBER>][ {(ISBN: <isbn>)|(DOI: <doi>)}]
-
-<IN>        := In: [<AUTHORS>. ]<TITLE>
-<NUMBER>    := [Vol. <volume_number>] [(<issue_number>)][, p.<first_page>-<last_page>]
-
-<PUBLISHER> := [<city>, [<state>,] <country>. ]<publisher>
-
-<ADDITIONS> := {<INTERNET>|<NOTE>}[, <ADDITIONS>]
-<INTERNET>  := Retreived from: <url> "["<YYYY-MM-DD>"]"
-<NOTE>      := Note: <remark>
+% <AUTHORS> (<year>). <TITLE> [(edition)].[ <IN>.][ <PUBLISHER>.][ <ADDITIONS>.]
+%
+% <AUTHORS>   := <AUTHOR>[, <AUTHORS>]
+% <AUTHOR>    := <Last Name>, <First Name Initial>.
+%
+% <TITLE>     := <title>[ (inEdition)][, (published <year>)][, <NUMBER>][ {(ISBN: <isbn>)|(DOI: <doi>)}]
+%
+% <IN>        := In: [<AUTHORS>. ]<TITLE>
+% <NUMBER>    := [Vol. <volume_number>] [(<issue_number>)][, p.<first_page>-<last_page>]
+%
+% <PUBLISHER> := [<city>, [<state>,] <country>. ]<publisher>
+%
+% <ADDITIONS> := {<INTERNET>|<NOTE>}[, <ADDITIONS>]
+% <INTERNET>  := Retreived from: <url> "["<YYYY-MM-DD>"]"
+% <NOTE>      := Note: <remark>
 ```
 Not everything is enforced and there might be some differences to the actual implementation (I will have to check again).
 
