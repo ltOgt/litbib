@@ -140,7 +140,7 @@
 				% if edition not set
 				{}%
 				% if edition set
-				{~(Ed.~{\LIT@edition})}%
+				{~({\LIT@edition}~ed.)}%
 			\ifthenelse{\equal{\LIT@volume}{}}%
 				% if volume is not set
 				{%
@@ -190,7 +190,7 @@
 					% if inEdition not set
 					{}%
 					% if inEdition set
-					{~(Ed.~{\LIT@inEdition})}%
+					{~({\LIT@inEdition}~ed.)}%
 				\ifthenelse{\equal{\LIT@inYear}{}}%
 					% if year not set
 					{}%
