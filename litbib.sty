@@ -34,9 +34,12 @@
 
 
 % Formated Bibliography
-\NewEnviron{litbib}[1][Bibliography]{
+\NewEnviron{litbib}[2][Bibliography]{
 	\begingroup%
 		\chapter{#1}% TODO switch between chapter and section; either automatically or by an option
+
+		% potential pretext to bibliography entries
+		#2
 
 		% HIDE <<Literatur>> Heading
 			% article
@@ -271,5 +274,8 @@
 % <ADDITIONS> := {<INTERNET>|<NOTE>}[, <ADDITIONS>]
 % <INTERNET>  := Retreived from: <url> "["<YYYY-MM-DD>"]"
 % <NOTE>      := Note: <remark>
+
+% Temporary Hack to add structure to the Bibliography without having to start a new one: Subsections between the \lit items
+\newcommand{\lithead}[1]{\protect\smallskip\protect\subsubsection{#1}}
 
 \endinput
